@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteFlix.Base", "RemoteFlix.Base\RemoteFlix.Base.csproj", "{19B2EC75-4018-44A7-A7E7-F74B53D094A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteFlix.UI.Desktop", "RemoteFlix.UI.Desktop\RemoteFlix.UI.Desktop.csproj", "{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19B2EC75-4018-44A7-A7E7-F74B53D094A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19B2EC75-4018-44A7-A7E7-F74B53D094A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19B2EC75-4018-44A7-A7E7-F74B53D094A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19B2EC75-4018-44A7-A7E7-F74B53D094A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F3E84E0-BB0E-4921-9650-B03F7BF18F5B}
+	EndGlobalSection
+EndGlobal

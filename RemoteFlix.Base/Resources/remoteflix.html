@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <title>RemoteFlix</title>
+        
+        <style>
+            body {
+                background-color: dimgray;
+                padding: 10px;
+                font-family: 'Bahnschrift Light';
+            }
+
+            #logo {
+                display: flex;
+            }
+
+            #logo img {
+                width: 200px;
+                height: 200px;
+
+                display:block;
+                margin-left:auto;
+                margin-right:auto;
+            }
+
+            #content {
+                display:block;
+                margin-left:auto;
+                margin-right:auto;
+            }
+
+            #sub_content {
+                width: 95%;
+                margin: 0 auto;
+            }
+
+            p {
+                text-align: center;
+                margin: 10px;
+                font-size: 18px;
+            }
+
+            button {
+                width: 100%;
+                margin: 5px;
+                
+                background-color: #FF5858;
+                border: none;
+                color: black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                font-weight: 520;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="logo">
+                <image src="remoteflix.png" />
+            </div>
+            
+            <p>Conectado ao computador<br><b>{COMPUTER_NAME}</b></p>
+
+            <div id="content">
+                <div id="sub_content">
+                    {PAGE_CONTENT}
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function postCommand(player, command)
+            {
+                var request = new XMLHttpRequest();
+
+                request.onload = function () {
+                    var status = request.status; 
+
+                    if(status != 200) {
+                        alert(`[ERROR] Request returned ${status}.\n\nCheck RemoteFlix's logs on desktop for details.`)
+                    }
+                }
+
+                request.open("POST", `/${player}`, true);
+                request.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+                request.send(`command=${command}`);
+            }
+        </script>
+    </body>
+</html> 

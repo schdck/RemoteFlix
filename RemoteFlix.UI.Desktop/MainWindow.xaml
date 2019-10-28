@@ -1,0 +1,185 @@
+﻿<controls:MetroWindow x:Class="RemoteFlix.UI.Desktop.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      xmlns:classes="clr-namespace:RemoteFlix.Base.Classes;assembly=RemoteFlix.Base"
+                      xmlns:enums="clr-namespace:RemoteFlix.Base.Enums;assembly=RemoteFlix.Base"
+                      DataContext="{Binding Main, Source={StaticResource Locator}}"
+                      mc:Ignorable="d"
+                      ResizeMode="CanMinimize"
+                      ShowMaxRestoreButton="False"
+                      Title="RemoteFlix v0.1b1"
+                      TitleCaps="False"
+                      Height="600"
+                      Width="800">
+    <controls:MetroWindow.Resources>
+        <DataTemplate DataType="{x:Type classes:Log}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="DateTimeContainer" 
+                           Text="{Binding DateTime, StringFormat={}[{0}]}" />
+                <TextBlock x:Name="MessageContainer" 
+                           Margin="5 0" 
+                           Text="{Binding Message}" />
+            </StackPanel>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding LogLevel}"
+                             Value="{x:Static enums:LogLevel.Warning}">
+                    <Setter TargetName="DateTimeContainer"
+                            Property="Foreground"
+                            Value="Orange" />
+
+                    <Setter TargetName="MessageContainer"
+                            Property="Foreground"
+                            Value="Orange" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding LogLevel}"
+                             Value="{x:Static enums:LogLevel.Error}">
+                    <Setter TargetName="DateTimeContainer"
+                            Property="Foreground"
+                            Value="Red" />
+
+                    <Setter TargetName="MessageContainer"
+                            Property="Foreground"
+                            Value="Red" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </controls:MetroWindow.Resources>
+    
+    
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="110" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            <Image Margin="10"
+                   Source="/Resources/remoteflix.png" />
+
+            <TextBlock Grid.Row="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="28"
+                       Text="RemoteFlix v1.0b1"
+                       FontFamily="Bahnschrift Light" />
+        </DockPanel>
+
+        <Border Grid.Row="1"
+                HorizontalAlignment="Center"
+                BorderThickness="1"
+                BorderBrush="Gray">
+            <Grid Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="2" />
+                    <ColumnDefinition Width="350" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.ColumnSpan="3"
+                           Margin="0 5 0 0"
+                           Text="CONNECT"
+                           TextAlignment="Center"
+                           FontFamily="Bahnschrift Light"
+                           FontWeight="Bold"
+                           FontSize="18" />
+
+                <Rectangle Grid.Column="1"
+                           Grid.Row="1"
+                           Margin="0 15"
+                           Opacity=".5"
+                           Fill="Gray" />
+
+                <DockPanel Grid.Row="1"
+                           Grid.Column="0">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="USING A QRCODE"
+                               TextAlignment="Center"
+                               FontFamily="Bahnschrift Light" />
+
+                    <Image DockPanel.Dock="Bottom"
+                           Name="QrCodeImage"
+                           Width="140"
+                           Height="140"
+                           Source="{Binding ServerAddress, Converter={StaticResource TextToQrcodeConverter}}" />
+                </DockPanel>
+
+                <DockPanel Grid.Row="1"
+                           Grid.Column="3">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="USING YOUR PHONE'S BROWSER"
+                               TextAlignment="Center"
+                               FontFamily="Bahnschrift Light" />
+
+                    <Border VerticalAlignment="Center"
+                            Margin="20 0"
+                            BorderThickness="2"
+                            BorderBrush="LightGray">
+                        <DockPanel Margin="0 0 -1 -1">
+                            <Button DockPanel.Dock="Right"
+                                    VerticalAlignment="Stretch"
+                                    Command="{Binding CopyAddressToClipboardCommand}"
+                                    Width="30"
+                                    Padding="5">
+                                <iconPacks:PackIconFontAwesome Kind="ClipboardRegular" />
+                            </Button>
+
+                            <TextBlock Text="{Binding ServerAddress}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       FontSize="18" />
+                        </DockPanel>
+                    </Border>
+                </DockPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="3"
+                Width="702"
+                BorderThickness="1"
+                BorderBrush="Gray">
+            <Grid Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="0 5 0 0"
+                           Text="LOGS"
+                           TextAlignment="Center"
+                           FontFamily="Bahnschrift Light"
+                           FontWeight="Bold"
+                           FontSize="18" />
+
+                <Rectangle Grid.Row="1"
+                           Margin="15 0"
+                           Opacity=".5"
+                           Fill="Gray"
+                           Height="2"
+                           VerticalAlignment="Top" />
+
+                <ScrollViewer Grid.Row="1"
+                              Margin="10 15 10 10"
+                              CanContentScroll="True"
+                              ScrollChanged="ScrollViewer_ScrollChanged">
+                    <ItemsControl ItemsSource="{Binding Logs}" />
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</controls:MetroWindow>
