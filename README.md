@@ -2,11 +2,10 @@
   
   [<img width=128 height=128 src="https://github.com/schdck/RemoteFlix/blob/master/Other/icon.png?raw=true">](https://github.com/schdck/RemoteFlix)
 
-  # RemoteFlix 
+  # RemoteFlix  (beta)
   
-  :cinema: RemoteFlix is a desktop application aimed to allow you to control any media player running on your computer directly from a web-browser in your phone.
+  :cinema: RemoteFlix is a desktop application aimed to allow you to control any <br> media player running on your computer directly from a web-browser in your phone.
 </div>
-<hr>
 
 ## Why?
 Well, basically because I was tired of getting up to pause my stream and answer a text.
