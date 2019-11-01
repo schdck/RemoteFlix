@@ -18,7 +18,7 @@ namespace RemoteFlix.Base.Classes
 
         public override string ToString()
         {
-            return $"[{DateTime}][{LogLevel}] {Message}";
+            return $"[{DateTime}] {Message}";
         }
     }
 }

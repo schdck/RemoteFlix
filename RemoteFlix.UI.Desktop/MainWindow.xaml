@@ -4,9 +4,11 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:localControls="clr-namespace:RemoteFlix.UI.Desktop.Controls"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:classes="clr-namespace:RemoteFlix.Base.Classes;assembly=RemoteFlix.Base"
                       xmlns:enums="clr-namespace:RemoteFlix.Base.Enums;assembly=RemoteFlix.Base"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                       DataContext="{Binding Main, Source={StaticResource Locator}}"
                       mc:Ignorable="d"
                       ResizeMode="CanMinimize"
@@ -15,23 +17,20 @@
                       TitleCaps="False"
                       Height="600"
                       Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding Path=StartServerCommand, Mode=OneWay}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <controls:MetroWindow.Resources>
         <DataTemplate DataType="{x:Type classes:Log}">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock x:Name="DateTimeContainer" 
-                           Text="{Binding DateTime, StringFormat={}[{0}]}" />
-                <TextBlock x:Name="MessageContainer" 
-                           Margin="5 0" 
-                           Text="{Binding Message}" />
-            </StackPanel>
+            <localControls:SelectableTextBlock x:Name="MessageContainer"
+                                               Text="{Binding}" />
 
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding LogLevel}"
                              Value="{x:Static enums:LogLevel.Warning}">
-                    <Setter TargetName="DateTimeContainer"
-                            Property="Foreground"
-                            Value="Orange" />
-
                     <Setter TargetName="MessageContainer"
                             Property="Foreground"
                             Value="Orange" />
@@ -39,10 +38,6 @@
 
                 <DataTrigger Binding="{Binding LogLevel}"
                              Value="{x:Static enums:LogLevel.Error}">
-                    <Setter TargetName="DateTimeContainer"
-                            Property="Foreground"
-                            Value="Red" />
-
                     <Setter TargetName="MessageContainer"
                             Property="Foreground"
                             Value="Red" />
@@ -176,6 +171,7 @@
                 <ScrollViewer Grid.Row="1"
                               Margin="10 15 10 10"
                               CanContentScroll="True"
+                              HorizontalScrollBarVisibility="Auto"
                               ScrollChanged="ScrollViewer_ScrollChanged">
                     <ItemsControl ItemsSource="{Binding Logs}" />
                 </ScrollViewer>

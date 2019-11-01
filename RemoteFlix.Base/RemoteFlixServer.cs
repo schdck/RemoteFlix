@@ -46,8 +46,6 @@ namespace RemoteFlix.Base
 
             Logger.Instance.Log(LogLevel.Message, "Starting the HttpListener server...");
 
-            // TODO: if permission denied, run: netsh http add urlacl url="http://+:50505/" user=todos
-            // TODO: if permission denied, run: netsh http add urlacl url="http://+:50505/" user=everyone
             Listener.Start();
 
             Logger.Instance.Log(LogLevel.Message, "Server started.");
