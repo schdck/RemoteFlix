@@ -4,8 +4,14 @@
 
   # RemoteFlix  (beta)
   
+ [![Build status](https://ci.appveyor.com/api/projects/status/5ue8gqox9da69e0w/branch/master?svg=true)](https://ci.appveyor.com/project/schdck/remoteflix/branch/master)
+ [![GitHub issues](https://img.shields.io/github/issues/schdck/RemoteFlix.svg)](https://github.com/schdck/RemoteFlix/issues)
+ [![License](https://img.shields.io/github/license/schdck/RemoteFlix.svg)](https://github.com/schdck/RemoteFlix/blob/master/LICENSE)
+ 
   :cinema: RemoteFlix is a desktop application aimed to allow you to control any <br> media player running on your computer directly from a web-browser in your phone.
 </div>
+
+<hr>
 
 ## Why?
 Well, basically because I was tired of getting up to pause my stream and answer a text.
