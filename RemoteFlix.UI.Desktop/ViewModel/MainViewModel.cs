@@ -20,7 +20,7 @@ namespace RemoteFlix.UI.Desktop.ViewModel
 
         public bool ErrorStartingServer { get; private set; }
         public string ServerAddress { get; }
-        public string RemoteFlixVersion => "1.0-beta1";
+        public string RemoteFlixVersion => "1.0-beta2";
         public ObservableCollection<Log> Logs { get; }
 
         public ICommand CopyAddressToClipboardCommand { get; }
