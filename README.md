@@ -28,6 +28,13 @@ After you run the executable, it's pretty straightforward. Just go ahead and sca
 
 [<img src="https://github.com/schdck/RemoteFlix/blob/master/Other/Screenshots/MainScreen.png?raw=true">](https://raw.githubusercontent.com/schdck/RemoteFlix/master/Other/Screenshots/MainScreen.png)
 
+## Supported media players
+* Netflix
+* VLC Media Player
+* Popcorn Time (Butter)
+
+Want support for a player that isn't listed? Please [let us know](https://github.com/schdck/RemoteFlix/issues/new?assignees=&labels=&template=player-request.md&title=%5BPLAYER+REQUEST%5D). Pull requests are also welcome.
+
 ## Troubleshooting
 If you are running RemoteFlix but can't connect to it, you can try these steps:
 
