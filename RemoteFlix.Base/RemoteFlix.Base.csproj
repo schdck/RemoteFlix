@@ -49,6 +49,7 @@
     <Compile Include="Helpers\KeyboardSimulationHelper.cs" />
     <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Players\BasePlayer.cs" />
+    <Compile Include="Players\PlayerButter.cs" />
     <Compile Include="Players\PlayerNetflix.cs" />
     <Compile Include="Players\PlayerNetflixChrome.cs" />
     <Compile Include="Players\PlayerVlc.cs" />

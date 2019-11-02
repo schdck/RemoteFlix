@@ -9,7 +9,8 @@ namespace RemoteFlix.Base
         {
             new PlayerNetflix(),
             new PlayerNetflixChrome(),
-            new PlayerVlc()
+            new PlayerVlc(),
+            new PlayerButter()
         };
     }
 }
