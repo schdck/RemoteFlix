@@ -149,7 +149,7 @@
                         <TextBlock DockPanel.Dock="Top"
                                    TextAlignment="Center"
                                    TextWrapping="Wrap"
-                                   Text="You can also use the 'Set environment' button &#10; on the top right to try to solve this problem." />
+                                   Text="You can also use the 'Setup environment' button &#10; on the top right to try to solve this problem." />
 
                         <Button DockPanel.Dock="Top"
                                 Margin="0 15 0 5"
