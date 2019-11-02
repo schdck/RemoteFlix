@@ -50,7 +50,7 @@ namespace RemoteFlix.UI.Desktop
                 System.Windows.Application.Current.Shutdown();
             }));
 
-            Hide();
+            // Hide();
 
             InitializeComponent();
         }
