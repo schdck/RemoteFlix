@@ -22,7 +22,7 @@ The idea behind RemoteFlix is very simple. Most (if not all) media players provi
 To do that, it exposes a very simple web-server which is responsible for listing the avaliable players and actions (which we call commands). Also, the web-server is responsible for handling requests. When a request is received, it'll look for the player's process on the machine and send the keys corresponding to the action's shortcut to it.
 
 ## Installing and running
-As of this moment, you'll have to build and run the application yourself. When I feel confortable to release the application, I'll provide an installer which offers the possibility to auto-start the application and to automatically open the needed firewall ports.
+There is a setup (use this if you want to have RemoteFlix auto-starting with Windows) and portable binaries avaliable for each version on the [releases](https://github.com/schdck/RemoteFlix/releases) page.
 
 After you run the executable, it's pretty straightforward. Just go ahead and scan the QRCode or navigate to the indicated URL.
 
@@ -34,4 +34,5 @@ If you are running RemoteFlix but can't connect to it, you can try these steps:
 * Try to connect to it from a browser running on your computer (this will help narrowing down the issue)
 * Make sure that you are connected to the same network on both your computer and your phone
 * Try restarting the application if you changed the network your computer is connected to
-* Make sure that your firewall is not in the way (the server is using TCP port 50505 by default)
+* Click the "Setup environment" button on the application, this will open the needed ports on Windows Firewall
+* If you are not using Windows Firewall, make sure that your firewall is not in the way. RemoteFlix is using TCP port 50505 by default
