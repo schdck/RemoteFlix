@@ -26,7 +26,7 @@ As of this moment, you'll have to build and run the application yourself. When I
 
 After you run the executable, it's pretty straightforward. Just go ahead and scan the QRCode or navigate to the indicated URL.
 
-[<img src="https://github.com/schdck/RemoteFlix/blob/master/Other/Screenshots/MainScreen.png?raw=true">]()
+[<img src="https://github.com/schdck/RemoteFlix/blob/master/Other/Screenshots/MainScreen.png?raw=true">](https://raw.githubusercontent.com/schdck/RemoteFlix/master/Other/Screenshots/MainScreen.png)
 
 ## Troubleshooting
 If you are running RemoteFlix but can't connect to it, you can try these steps:
