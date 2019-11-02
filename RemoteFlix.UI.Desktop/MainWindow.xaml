@@ -92,7 +92,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontSize="28"
-                       Text="RemoteFlix v1.0b1"
+                       Text="{Binding RemoteFlixVersion, StringFormat={}Remoteflix v{0}}"
                        FontFamily="Bahnschrift Light" />
         </DockPanel>
 
