@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteFlix.Base", "RemoteFl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteFlix.UI.Desktop", "RemoteFlix.UI.Desktop\RemoteFlix.UI.Desktop.csproj", "{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "RemoteFlix.Setup", "RemoteFlix.Setup\RemoteFlix.Setup.vdproj", "{F8B31260-2660-41E5-951A-C78D8C5B0DFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA8C9250-6549-4DD7-A9BB-FD50F57B2E1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B31260-2660-41E5-951A-C78D8C5B0DFC}.Debug|Any CPU.ActiveCfg = Debug
+		{F8B31260-2660-41E5-951A-C78D8C5B0DFC}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
