@@ -50,16 +50,16 @@ namespace RemoteFlix.UI.Desktop
                 System.Windows.Application.Current.Shutdown();
             }));
 
-            // Hide();
+            Hide();
 
             InitializeComponent();
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            //e.Cancel = true;
+            e.Cancel = true;
 
-            //Hide();
+            Hide();
 
             base.OnClosing(e);
         }
