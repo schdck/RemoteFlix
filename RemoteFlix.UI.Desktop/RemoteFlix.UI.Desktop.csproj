@@ -37,6 +37,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>RemoteFlix.UI.Desktop.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>remoteflix.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
@@ -95,6 +101,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\SelectableTextBlock.cs" />
     <Compile Include="Converters\TextToQrcodeConverter.cs" />
+    <Compile Include="Helpers\CmdHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Wrappers\TextEditorWrapper.cs" />
@@ -149,6 +156,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\remoteflix.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="remoteflix.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
