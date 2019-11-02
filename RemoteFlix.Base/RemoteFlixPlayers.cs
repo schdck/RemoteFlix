@@ -8,7 +8,8 @@ namespace RemoteFlix.Base
         public static IEnumerable<BasePlayer> AvaliablePlayers = new BasePlayer[]
         {
             new PlayerNetflix(),
-            new PlayerNetflixChrome()
+            new PlayerNetflixChrome(),
+            new PlayerVlc()
         };
     }
 }

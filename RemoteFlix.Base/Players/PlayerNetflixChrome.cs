@@ -9,13 +9,13 @@ namespace RemoteFlix.Base.Players
         public override string Name => "Netflix (on Google Chrome)";
         public override IntPtr? GetHandle()
         {
-            var chromeProcesses = Process.GetProcessesByName("chrome");
+            var processes = Process.GetProcessesByName("chrome");
 
-            foreach (Process chrome in chromeProcesses)
+            foreach (var process in processes)
             {
-                if (chrome.MainWindowHandle != IntPtr.Zero)
+                if (process.MainWindowHandle != IntPtr.Zero)
                 {
-                    return chrome.MainWindowHandle;
+                    return process.MainWindowHandle;
                 }
             }
 
