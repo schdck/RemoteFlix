@@ -12,11 +12,39 @@ namespace RemoteFlix.UI.Desktop
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        private Mutex ApplicationMutex;
         private NotifyIcon ApplicationIcon;
+        private EventWaitHandle EventWaitHandle;
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
+            ApplicationMutex = new Mutex(true, "RemoteFlix.UI.Desktop.Mutex", out bool createdNew);
+            EventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "RemoteFlix.UI.Desktop.EventWaitHandle");
+
+            GC.KeepAlive(ApplicationMutex);
+
+            if (!createdNew)
+            {
+                EventWaitHandle.Set();
+
+                Current.Shutdown();
+
+                return;
+            }
+
             CreateTaskBarIcon();
+
+            var thread = new Thread(() =>
+            {
+                while (EventWaitHandle.WaitOne())
+                {
+                    Current.Dispatcher.BeginInvoke(
+                        (Action)(() => ((MainWindow) Current.MainWindow).BringToForeground()));
+                }
+            });
+
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         private void CreateTaskBarIcon()
