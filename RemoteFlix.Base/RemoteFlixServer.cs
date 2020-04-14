@@ -213,12 +213,12 @@ namespace RemoteFlix.Base
             if (playerHandle == null)
             {
                 playerHandle = KeyboardSimulationHelper.GetForegroundWindow();
-            }
 
-            // If this also fails, there isn't much we can do
-            if(playerHandle == null || playerHandle.Value == IntPtr.Zero)
-            {
-                return false;
+                // If this also fails, there isn't much we can do
+                if (playerHandle.Value == IntPtr.Zero)
+                {
+                    return false;
+                }
             }
 
             KeyboardSimulationHelper.SendKeys(playerHandle.Value, command.ActionShortcut);

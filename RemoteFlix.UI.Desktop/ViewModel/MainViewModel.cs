@@ -112,7 +112,7 @@ namespace RemoteFlix.UI.Desktop.ViewModel
         private void LogReceived(object sender, NotifyCollectionChangedEventArgs e)
         {
             // It is safe to do this since there's only one method to modify the collection and it 
-            // adds (one) log. So every time the collection changes it is an addition of one item.
+            // adds *one* log. So every time the collection changes it is an addition of one item.
             var log = e.NewItems[0] as Log;
 
             Application.Current.Dispatcher.Invoke(() => Logs.Add(log));
