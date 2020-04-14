@@ -1,17 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using RemoteFlix.UI.Desktop.ViewModel;
+using System;
+using System.Drawing;
+using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace RemoteFlix.UI.Desktop
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
+        private NotifyIcon ApplicationIcon;
+
+        private void OnStartup(object sender, StartupEventArgs e)
+        {
+            CreateTaskBarIcon();
+        }
+
+        private void CreateTaskBarIcon()
+        {
+            Icon icon;
+
+            using (var stream = GetResourceStream(new Uri("pack://application:,,,/RemoteFlix.UI.Desktop;component/Resources/remoteflix.ico")).Stream)
+            {
+                icon = new Icon(stream);
+            }
+
+            ApplicationIcon = new NotifyIcon
+            {
+                Icon = icon,
+                Visible = true,
+                ContextMenu = new ContextMenu()
+            };
+
+            ApplicationIcon.DoubleClick += (s, e) =>
+            {
+                ((MainWindow)Current.MainWindow).BringToForeground();
+            };
+
+            ApplicationIcon.ContextMenu.MenuItems.Add(new MenuItem("Show", (s, e) =>
+            {
+                ((MainWindow)Current.MainWindow).BringToForeground();
+            }));
+
+            ApplicationIcon.ContextMenu.MenuItems.Add(new MenuItem("Exit", (s, e) =>
+            {
+                var viewModel = ((MainWindow)Current.MainWindow).DataContext as MainViewModel;
+
+                viewModel.ApplicationShuttingDownCommand.Execute(null);
+
+                Current.Shutdown();
+            }));
+        }
     }
 }
