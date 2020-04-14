@@ -89,7 +89,7 @@ namespace RemoteFlix.UI.Desktop.ViewModel
         {
             try
             {
-                Logger.Instance.Log(Base.Enums.LogLevel.Message, "Running 'netsh http add urlacl url=\"http://+:{RemoteFlixServer.PORT}/\" sddl=D:(A;;GX;;;S-1-1-0)'");
+                Logger.Instance.Log(Base.Enums.LogLevel.Message, $"Running 'netsh http add urlacl url=\"http://+:{RemoteFlixServer.PORT}/\" sddl=D:(A;;GX;;;S-1-1-0)'");
                 var output = CmdHelper.RunAsAdmin($"cmd /c netsh http add urlacl url=\"http://+:{RemoteFlixServer.PORT}/\" sddl=D:(A;;GX;;;S-1-1-0)");
                 Logger.Instance.Log(Base.Enums.LogLevel.Message, $"Command prompt threw no exceptions. Output was:\n{output}");
             }
@@ -99,7 +99,7 @@ namespace RemoteFlix.UI.Desktop.ViewModel
             }
             try
             {
-                Logger.Instance.Log(Base.Enums.LogLevel.Message, "Running 'netsh advfirewall firewall add rule name=\"RemoteFlix_Port\" localport={RemoteFlixServer.PORT} direction=in action=allow protocol=tcp'");
+                Logger.Instance.Log(Base.Enums.LogLevel.Message, $"Running 'netsh advfirewall firewall add rule name=\"RemoteFlix_Port\" localport={RemoteFlixServer.PORT} direction=in action=allow protocol=tcp'");
                 var output = CmdHelper.RunAsAdmin($"cmd /c netsh advfirewall firewall add rule name=\"RemoteFlix_Port\" localport={RemoteFlixServer.PORT} direction=in action=allow protocol=tcp");
                 Logger.Instance.Log(Base.Enums.LogLevel.Message, $"Command prompt threw no exceptions. Output was:\n{output}");
             }
