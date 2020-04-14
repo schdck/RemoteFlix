@@ -54,5 +54,14 @@ namespace RemoteFlix.UI.Desktop
                 Current.Shutdown();
             }));
         }
+
+        private void OnExit(object sender, ExitEventArgs e)
+        {
+            if(ApplicationIcon != null)
+            {
+                ApplicationIcon.Visible = false;
+                ApplicationIcon.Dispose();
+            }
+        }
     }
 }
