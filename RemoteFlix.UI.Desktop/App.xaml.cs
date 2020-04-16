@@ -1,6 +1,8 @@
-﻿using RemoteFlix.UI.Desktop.ViewModel;
+﻿using RemoteFlix.Base;
+using RemoteFlix.Base.Classes;
 using System;
 using System.Drawing;
+using System.Net;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
@@ -15,6 +17,9 @@ namespace RemoteFlix.UI.Desktop
         private Mutex ApplicationMutex;
         private NotifyIcon ApplicationIcon;
         private EventWaitHandle EventWaitHandle;
+
+        private Icon RemoteFlixIcon;
+        private Icon RemoteflixAlertIcon;
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
@@ -32,14 +37,31 @@ namespace RemoteFlix.UI.Desktop
                 return;
             }
 
-            CreateTaskBarIcon();
+            var startedServer = StartServer();
+            CreateTaskBarIcon(startedServer);
 
+            ListenToEvents();
+        }
+
+        private void OnExit(object sender, ExitEventArgs e)
+        {
+            // TODO: Stop the server if its running
+
+            if (ApplicationIcon != null)
+            {
+                ApplicationIcon.Visible = false;
+                ApplicationIcon.Dispose();
+            }
+        }
+
+        private void ListenToEvents()
+        {
             var thread = new Thread(() =>
             {
                 while (EventWaitHandle.WaitOne())
                 {
                     Current.Dispatcher.BeginInvoke(
-                        (Action)(() => ((MainWindow) Current.MainWindow).BringToForeground()));
+                        (Action)(() => ((MainWindow)Current.MainWindow).BringToForeground()));
                 }
             });
 
@@ -47,18 +69,43 @@ namespace RemoteFlix.UI.Desktop
             thread.Start();
         }
 
-        private void CreateTaskBarIcon()
+        private bool StartServer()
         {
-            Icon icon;
+            try
+            {
+                RemoteFlixServer.Instance.Start();
+                
+                return true;
+            }
+            catch (HttpListenerException e)
+            {
+                // Running the following command seems to fix this exception
+                // netsh http add urlacl url="http://+:50505/" user=[username]
+                Logger.Instance.Log(Base.Enums.LogLevel.Error, $"{e.GetType()} while starting the server. Try running 'netsh http add urlacl url=\"http://+:{RemoteFlixServer.PORT}/\" user={Environment.UserName}' from an elevated command prompt.");
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Log(Base.Enums.LogLevel.Error, $"{e.GetType()} while starting the server. Message: '{e.Message}'");
+            }
 
+            return false;
+        }
+
+        private void CreateTaskBarIcon(bool startedServer)
+        {
             using (var stream = GetResourceStream(new Uri("pack://application:,,,/RemoteFlix.UI.Desktop;component/Resources/remoteflix.ico")).Stream)
             {
-                icon = new Icon(stream);
+                RemoteFlixIcon = new Icon(stream);
+            }
+
+            using (var stream = GetResourceStream(new Uri("pack://application:,,,/RemoteFlix.UI.Desktop;component/Resources/remoteflix_alert.ico")).Stream)
+            {
+                RemoteflixAlertIcon = new Icon(stream);
             }
 
             ApplicationIcon = new NotifyIcon
             {
-                Icon = icon,
+                Icon = startedServer ? RemoteFlixIcon : RemoteflixAlertIcon,
                 Visible = true,
                 ContextMenu = new ContextMenu()
             };
@@ -75,21 +122,8 @@ namespace RemoteFlix.UI.Desktop
 
             ApplicationIcon.ContextMenu.MenuItems.Add(new MenuItem("Exit", (s, e) =>
             {
-                var viewModel = ((MainWindow)Current.MainWindow).DataContext as MainViewModel;
-
-                viewModel.ApplicationShuttingDownCommand.Execute(null);
-
                 Current.Shutdown();
             }));
-        }
-
-        private void OnExit(object sender, ExitEventArgs e)
-        {
-            if(ApplicationIcon != null)
-            {
-                ApplicationIcon.Visible = false;
-                ApplicationIcon.Dispose();
-            }
         }
     }
 }

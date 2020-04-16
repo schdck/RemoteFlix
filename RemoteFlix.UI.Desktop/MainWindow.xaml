@@ -19,12 +19,6 @@
                       ShowIconOnTitleBar="False"
                       Height="600"
                       Width="800">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding Path=StartServerCommand, Mode=OneWay}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <controls:MetroWindow.Resources>
         <DataTemplate DataType="{x:Type classes:Log}">
             <localControls:SelectableTextBlock x:Name="MessageContainer"
@@ -101,147 +95,72 @@
                 BorderThickness="1"
                 BorderBrush="Gray">
             <Grid Background="White">
-                <Grid Width="702">
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Setter Property="Visibility"
-                                    Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ErrorStartingServer}"
-                                             Value="True">
-                                    <Setter Property="Visibility"
-                                            Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="2" />
+                    <ColumnDefinition Width="350" />
+                </Grid.ColumnDefinitions>
 
-                    <TextBlock Margin="0 5 0 0"
-                               Text="ERROR"
+                <TextBlock Grid.ColumnSpan="3"
+                           Margin="0 5 0 0"
+                           Text="CONNECT"
+                           TextAlignment="Center"
+                           FontFamily="Bahnschrift Light"
+                           FontWeight="Bold"
+                           FontSize="18" />
+
+                <Rectangle Grid.Column="1"
+                           Grid.Row="1"
+                           Margin="0 15"
+                           Opacity=".5"
+                           Fill="Gray" />
+
+                <DockPanel Grid.Row="1"
+                           Grid.Column="0">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="USING A QRCODE"
                                TextAlignment="Center"
-                               FontFamily="Bahnschrift Light"
-                               FontWeight="Bold"
-                               FontSize="18" />
+                               FontFamily="Bahnschrift Light" />
 
-                    <Rectangle Grid.Row="1"
-                               Margin="15 0"
-                               Opacity=".5"
-                               Fill="Gray"
-                               Height="2"
-                               VerticalAlignment="Top" />
+                    <Image DockPanel.Dock="Bottom"
+                           Name="QrCodeImage"
+                           Width="140"
+                           Height="140"
+                           Source="{Binding ServerAddress, Converter={StaticResource TextToQrcodeConverter}}" />
+                </DockPanel>
 
-                    <DockPanel Grid.Row="1"
-                               Width="400"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   TextAlignment="Center"
-                                   Margin="0 10 0 10"
-                                   TextWrapping="Wrap"
-                                   Text="There was an error starting the server. &#10; Check the logs for details." />
-
-                        <TextBlock DockPanel.Dock="Top"
-                                   TextAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   Text="You can also use the 'Setup environment' button &#10; on the top right to try to solve this problem." />
-
-                        <Button DockPanel.Dock="Top"
-                                Margin="0 15 0 5"
-                                Width="120"
-                                Command="{Binding StartServerCommand}"
-                                HorizontalAlignment="Center"
-                                Content="Try again" />
-                    </DockPanel>
-                </Grid>
-
-                <Grid>
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Setter Property="Visibility"
-                                    Value="Visible" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ErrorStartingServer}"
-                                             Value="True">
-                                    <Setter Property="Visibility"
-                                            Value="Hidden" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="350" />
-                        <ColumnDefinition Width="2" />
-                        <ColumnDefinition Width="350" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.ColumnSpan="3" 
-                               Margin="0 5 0 0"
-                               Text="CONNECT"
+                <DockPanel Grid.Row="1"
+                           Grid.Column="3">
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="USING YOUR PHONE'S BROWSER"
                                TextAlignment="Center"
-                               FontFamily="Bahnschrift Light"
-                               FontWeight="Bold"
-                               FontSize="18" />
+                               FontFamily="Bahnschrift Light" />
 
-                    <Rectangle Grid.Column="1"
-                               Grid.Row="1"
-                               Margin="0 15"
-                               Opacity=".5"
-                               Fill="Gray" />
+                    <Border VerticalAlignment="Center"
+                            Margin="20 0"
+                            BorderThickness="2"
+                            BorderBrush="LightGray">
+                        <DockPanel Margin="0 0 -1 -1">
+                            <Button DockPanel.Dock="Right"
+                                    VerticalAlignment="Stretch"
+                                    Command="{Binding CopyAddressToClipboardCommand}"
+                                    Width="30"
+                                    Padding="5">
+                                <iconPacks:PackIconFontAwesome Kind="ClipboardRegular" />
+                            </Button>
 
-                    <DockPanel Grid.Row="1"
-                               Grid.Column="0">
-                        <TextBlock DockPanel.Dock="Top"
-                                   Text="USING A QRCODE"
-                                   TextAlignment="Center"
-                                   FontFamily="Bahnschrift Light" />
-
-                        <Image DockPanel.Dock="Bottom"
-                               Name="QrCodeImage"
-                               Width="140"
-                               Height="140"
-                               Source="{Binding ServerAddress, Converter={StaticResource TextToQrcodeConverter}}" />
-                    </DockPanel>
-
-                    <DockPanel Grid.Row="1"
-                               Grid.Column="3">
-                        <TextBlock DockPanel.Dock="Top"
-                                   Text="USING YOUR PHONE'S BROWSER"
-                                   TextAlignment="Center"
-                                   FontFamily="Bahnschrift Light" />
-
-                        <Border VerticalAlignment="Center"
-                                Margin="20 0"
-                                BorderThickness="2"
-                                BorderBrush="LightGray">
-                            <DockPanel Margin="0 0 -1 -1">
-                                <Button DockPanel.Dock="Right"
-                                        VerticalAlignment="Stretch"
-                                        Command="{Binding CopyAddressToClipboardCommand}"
-                                        Width="30"
-                                        Padding="5">
-                                    <iconPacks:PackIconFontAwesome Kind="ClipboardRegular" />
-                                </Button>
-
-                                <TextBlock Text="{Binding ServerAddress}"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"
-                                           FontSize="18" />
-                            </DockPanel>
-                        </Border>
-                    </DockPanel>
-                </Grid>
+                            <TextBlock Text="{Binding ServerAddress}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       FontSize="18" />
+                        </DockPanel>
+                    </Border>
+                </DockPanel>
             </Grid>
         </Border>
 

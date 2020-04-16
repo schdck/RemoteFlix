@@ -15,21 +15,29 @@ using static RemoteFlix.Base.Helpers.ResponseHelper;
 
 namespace RemoteFlix.Base
 {
-    public class RemoteFlixServer
+    public sealed class RemoteFlixServer
     {
         private const int HTTP_OK = 200;
         private const int HTTP_BAD_REQUEST = 400;
         private const int HTTP_NOT_FOUND = 404;
         private const int HTTP_INTERNAL_SERVER_ERROR = 500;
-
         public const ushort PORT = 50505;
-
         private HttpListener Listener;
         private CancellationTokenSource CancellationTokenSource;
 
         private int RequestId;
 
-        public RemoteFlixServer()
+        // We don't need this to be lazy, since we start the
+        // the server when the program starts
+        public static RemoteFlixServer Instance { get; } = new RemoteFlixServer();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static RemoteFlixServer()
+        {
+        }
+
+        private RemoteFlixServer()
         {
             if (!HttpListener.IsSupported)
             {

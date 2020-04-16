@@ -14,7 +14,7 @@ namespace RemoteFlix.Base.Classes
 
         readonly ObservableCollection<Log> _Logs;
 
-        public INotifyCollectionChanged Logs { get; }
+        public ReadOnlyObservableCollection<Log> Logs { get; }
 
         private Logger()
         {

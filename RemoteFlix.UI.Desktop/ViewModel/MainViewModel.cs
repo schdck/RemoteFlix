@@ -16,16 +16,11 @@ namespace RemoteFlix.UI.Desktop.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private RemoteFlixServer Server;
-
-        public bool ErrorStartingServer { get; private set; }
         public string ServerAddress { get; }
         public string RemoteFlixVersion => "1.0-beta2";
         public ObservableCollection<Log> Logs { get; }
 
         public ICommand CopyAddressToClipboardCommand { get; }
-        public ICommand ApplicationShuttingDownCommand { get; }
-        public ICommand StartServerCommand { get; }
         public ICommand SetupEnvironmentCommand { get; }
         public ICommand ReportErrorCommand { get; }
 
@@ -36,17 +31,11 @@ namespace RemoteFlix.UI.Desktop.ViewModel
                 Clipboard.SetText(ServerAddress);
             });
 
-            ApplicationShuttingDownCommand = new RelayCommand(() =>
-            {
-                Server.Stop();
-            });
-
             ReportErrorCommand = new RelayCommand(() =>
             {
                 Process.Start("https://github.com/schdck/RemoteFlix/issues/new");
             });
 
-            StartServerCommand = new RelayCommand(StartServer);
             SetupEnvironmentCommand = new RelayCommand(SetupEnvironment);
 
             if (IsInDesignMode)
@@ -55,33 +44,10 @@ namespace RemoteFlix.UI.Desktop.ViewModel
             }
             else
             {
-                Logs = new ObservableCollection<Log>();
-                Logger.Instance.Logs.CollectionChanged += LogReceived;
+                Logs = new ObservableCollection<Log>(Logger.Instance.Logs);
+                ((INotifyCollectionChanged) Logger.Instance.Logs).CollectionChanged += LogReceived;
 
                 ServerAddress = $"http://{NetworkHelper.GetLocalIPAddress()}:{RemoteFlixServer.PORT}";
-            }
-        }
-
-        private void StartServer()
-        {
-            try
-            {
-                Server = new RemoteFlixServer();
-                Server.Start();
-
-                ErrorStartingServer = false;
-            }
-            catch (HttpListenerException e)
-            {
-                // Running the following command seems to fix this exception
-                // netsh http add urlacl url="http://+:50505/" user=[username]
-                Logger.Instance.Log(Base.Enums.LogLevel.Error, $"{e.GetType()} while starting the server. Try running 'netsh http add urlacl url=\"http://+:{RemoteFlixServer.PORT}/\" user={Environment.UserName}' from an elevated command prompt.");
-                ErrorStartingServer = true;
-            }
-            catch (Exception e)
-            {
-                Logger.Instance.Log(Base.Enums.LogLevel.Error, $"{e.GetType()} while starting the server. Message: '{e.Message}'");
-                ErrorStartingServer = true;
             }
         }
 

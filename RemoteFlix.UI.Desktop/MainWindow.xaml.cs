@@ -1,10 +1,6 @@
 ﻿using MahApps.Metro.Controls;
-using RemoteFlix.UI.Desktop.ViewModel;
-using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Controls;
-using System.Windows.Forms;
 
 namespace RemoteFlix.UI.Desktop
 {
