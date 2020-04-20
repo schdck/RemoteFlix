@@ -26,6 +26,7 @@ namespace RemoteFlix.Base
         private CancellationTokenSource CancellationTokenSource;
 
         private int RequestId;
+        public bool IsRunning { get; private set; }
 
         // We don't need this to be lazy, since we start the
         // the server when the program starts
@@ -46,6 +47,8 @@ namespace RemoteFlix.Base
 
             Listener = new HttpListener();
             Listener.Prefixes.Add($"http://+:{PORT}/");
+
+            IsRunning = false;
         }
 
         public void Start()
@@ -59,11 +62,17 @@ namespace RemoteFlix.Base
             Logger.Instance.Log(LogLevel.Message, "Server started.");
 
             Task.Factory.StartNew(ReceiveRequests, CancellationTokenSource.Token);
+
+            IsRunning = true;
         }
 
         public void Stop()
         {
+            Listener.Stop();
+
             CancellationTokenSource.Cancel();
+
+            IsRunning = false;
         }
 
         private void ReceiveRequests()

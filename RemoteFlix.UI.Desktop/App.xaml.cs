@@ -43,14 +43,29 @@ namespace RemoteFlix.UI.Desktop
             ListenToEvents();
         }
 
-        private void OnExit(object sender, ExitEventArgs e)
+        private void OnExit(object sender, ExitEventArgs args)
         {
-            // TODO: Stop the server if its running
-
-            if (ApplicationIcon != null)
+            try
             {
-                ApplicationIcon.Visible = false;
-                ApplicationIcon.Dispose();
+                if (RemoteFlixServer.Instance.IsRunning)
+                    RemoteFlixServer.Instance.Stop();
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Log(Base.Enums.LogLevel.Error, $"{e.GetType()} while stopping the server. Message: '{e.Message}'");
+            }
+
+            try
+            {
+                if (ApplicationIcon != null)
+                {
+                    ApplicationIcon.Visible = false;
+                    ApplicationIcon.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Log(Base.Enums.LogLevel.Error, $"{e.GetType()} while disposing application icon. Message: '{e.Message}'");
             }
         }
 
