@@ -13,7 +13,7 @@ namespace RemoteFlix.UI.Desktop
 
         public MainWindow()
         {
-            // Hide();
+            Hide();
 
             InitializeComponent();
         }
