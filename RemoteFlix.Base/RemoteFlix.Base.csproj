@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Classes\Log.cs" />
     <Compile Include="Classes\Logger.cs" />
+    <Compile Include="Classes\NetworkInterface.cs" />
     <Compile Include="Classes\PlayerCommand.cs" />
     <Compile Include="Enums\LogLevel.cs" />
     <Compile Include="Helpers\KeyboardSimulationHelper.cs" />

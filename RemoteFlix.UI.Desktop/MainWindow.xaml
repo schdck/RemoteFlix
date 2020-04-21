@@ -68,133 +68,160 @@
     </controls:MetroWindow.RightWindowCommands>
 
     <Grid Background="LightGray">
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily"
+                        Value="Bahnschrift Light" />
+            </Style>
+        </Grid.Resources>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="110" />
-            <RowDefinition Height="200" />
-            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center">
-            <Image Margin="10"
-                   Source="/Resources/remoteflix.png" />
+            <Image DockPanel.Dock="Top"
+                   Height="75"
+                   Margin="10"
+                   Source="/Resources/remoteflix_small.png" />
 
-            <TextBlock Grid.Row="0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       FontSize="28"
+            <TextBlock FontSize="24"
                        Text="{Binding RemoteFlixVersion, StringFormat={}Remoteflix v{0}}"
-                       FontFamily="Bahnschrift Light" />
+                       TextAlignment="Center" />
         </DockPanel>
 
         <Border Grid.Row="1"
-                HorizontalAlignment="Center"
+                Background="White"
+                Margin="25"
                 BorderThickness="1"
-                BorderBrush="Gray">
-            <Grid Background="White">
+                BorderBrush="Gray"
+                Padding="10">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350" />
-                    <ColumnDefinition Width="2" />
-                    <ColumnDefinition Width="350" />
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.ColumnSpan="3"
-                           Margin="0 5 0 0"
-                           Text="CONNECT"
-                           TextAlignment="Center"
-                           FontFamily="Bahnschrift Light"
-                           FontWeight="Bold"
-                           FontSize="18" />
-
-                <Rectangle Grid.Column="1"
-                           Grid.Row="1"
-                           Margin="0 15"
-                           Opacity=".5"
-                           Fill="Gray" />
-
-                <DockPanel Grid.Row="1"
-                           Grid.Column="0">
-                    <TextBlock DockPanel.Dock="Top"
-                               Text="USING A QRCODE"
-                               TextAlignment="Center"
-                               FontFamily="Bahnschrift Light" />
-
-                    <Image DockPanel.Dock="Bottom"
-                           Name="QrCodeImage"
-                           Width="140"
-                           Height="140"
-                           Source="{Binding ServerAddress, Converter={StaticResource TextToQrcodeConverter}}" />
-                </DockPanel>
-
-                <DockPanel Grid.Row="1"
-                           Grid.Column="3">
-                    <TextBlock DockPanel.Dock="Top"
-                               Text="USING YOUR PHONE'S BROWSER"
-                               TextAlignment="Center"
-                               FontFamily="Bahnschrift Light" />
-
-                    <Border VerticalAlignment="Center"
-                            Margin="20 0"
-                            BorderThickness="2"
-                            BorderBrush="LightGray">
-                        <DockPanel Margin="0 0 -1 -1">
-                            <Button DockPanel.Dock="Right"
-                                    VerticalAlignment="Stretch"
-                                    Command="{Binding CopyAddressToClipboardCommand}"
-                                    Width="30"
-                                    Padding="5">
-                                <iconPacks:PackIconFontAwesome Kind="ClipboardRegular" />
-                            </Button>
-
-                            <TextBlock Text="{Binding ServerAddress}"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center"
+                    <DockPanel Grid.Column="0"
+                               LastChildFill="False">
+                        <StackPanel DockPanel.Dock="Top"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="Server running:"
                                        FontSize="18" />
+
+                            <iconPacks:PackIconPicolIcons Margin="10 0 5 0"
+                                                          VerticalAlignment="Center"
+                                                          Kind="ServerAccept"
+                                                          Foreground="Green"
+                                                          Visibility="{Binding IsServerRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <TextBlock Text="Yes"
+                                       FontSize="18"
+                                       Visibility="{Binding IsServerRunning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                            <iconPacks:PackIconPicolIcons Margin="10 2 5 0"
+                                                          Kind="ServerCancel"
+                                                          Foreground="DarkRed"
+                                                          Visibility="{Binding IsServerRunning, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
+                            <TextBlock Text="No"
+                                       FontSize="18"
+                                       Visibility="{Binding IsServerRunning, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
+                        </StackPanel>
+
+                        <DockPanel DockPanel.Dock="Top"
+                                   Margin="0 10">
+                            <TextBlock DockPanel.Dock="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="18"
+                                       Text="Server address:" />
+
+                            <ComboBox DockPanel.Dock="Right"
+                                      Margin="10 0 0 0"
+                                      x:Name="ComboBox_ServerAddress"
+                                      ItemsSource="{Binding AvaliableNetworkInterfaces}"
+                                      SelectedItem="{Binding SelectedNetworkInterface}" />
                         </DockPanel>
+
+                        <Grid DockPanel.Dock="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0"
+                                    Content="START"
+                                    Command="{Binding StartServerCommand}"
+                                    IsEnabled="{Binding IsServerRunning, Converter={StaticResource BooleanToInverseConverter}}" />
+
+                            <Button Grid.Column="2"
+                                    Content="STOP"
+                                    Command="{Binding StopServerCommand}"
+                                    IsEnabled="{Binding IsServerRunning}" />
+
+                            <Button Grid.Column="4"
+                                    Content="COPY ADDRESS"
+                                    Command="{Binding CopyAddressToClipboardCommand}"
+                                    IsEnabled="{Binding IsServerRunning}" />
+
+                            <Button Grid.Column="6"
+                                    Content="SHOW LOG FILE"
+                                    Command="{Binding ShowLogFileCommand}" />
+                        </Grid>
+                    </DockPanel>
+
+                    <Image Grid.Column="2"
+                           Height="100"
+                           Width="100"
+                           Source="{Binding ServerAddress, Converter={StaticResource TextToQrcodeConverter}}"
+                           Visibility="{Binding ServerAddress, Converter={StaticResource NullToVisibilityInverseConverter}}" />
+
+                    <Border Grid.Column="2"
+                            Height="100"
+                            Width="100"
+                            BorderThickness="1"
+                            BorderBrush="DarkGray"
+                            Visibility="{Binding ServerAddress, Converter={StaticResource NullToVisibilityConverter}}">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Text="Select an address to generate a QR Code"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center" />
                     </Border>
-                </DockPanel>
-            </Grid>
-        </Border>
+                </Grid>
 
-        <Border Grid.Row="3"
-                Width="702"
-                BorderThickness="1"
-                BorderBrush="Gray">
-            <Grid Background="White">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <TextBlock Margin="0 5 0 0"
-                           Text="LOGS"
-                           TextAlignment="Center"
-                           FontFamily="Bahnschrift Light"
-                           FontWeight="Bold"
-                           FontSize="18" />
-
-                <Rectangle Grid.Row="1"
-                           Margin="15 0"
-                           Opacity=".5"
-                           Fill="Gray"
-                           Height="2"
-                           VerticalAlignment="Top" />
-
-                <ScrollViewer Grid.Row="1"
-                              Margin="10 15 10 10"
-                              CanContentScroll="True"
-                              HorizontalScrollBarVisibility="Auto"
-                              ScrollChanged="ScrollViewer_ScrollChanged">
-                    <ItemsControl ItemsSource="{Binding Logs}" />
-                </ScrollViewer>
+                <Border Grid.Row="1"
+                        Margin="0 10 0 0"
+                        BorderThickness="1"
+                        BorderBrush="DarkGray"
+                        Background="WhiteSmoke"
+                        Padding="5">
+                    <ScrollViewer CanContentScroll="True"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  ScrollChanged="ScrollViewer_ScrollChanged"
+                                  Padding="0 0 5 5">
+                        <ItemsControl ItemsSource="{Binding Logs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel VerticalAlignment="Bottom" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
             </Grid>
         </Border>
     </Grid>
