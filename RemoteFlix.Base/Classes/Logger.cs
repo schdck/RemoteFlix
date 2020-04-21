@@ -1,7 +1,6 @@
 ﻿using RemoteFlix.Base.Enums;
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.IO;
 
 namespace RemoteFlix.Base.Classes
@@ -15,6 +14,7 @@ namespace RemoteFlix.Base.Classes
         readonly ObservableCollection<Log> _Logs;
 
         public ReadOnlyObservableCollection<Log> Logs { get; }
+        public string PathToLogFile => Path.Combine(Path.GetTempPath(), "remoteflix.log.txt");
 
         private Logger()
         {
@@ -30,7 +30,7 @@ namespace RemoteFlix.Base.Classes
             {
                 _Logs.Add(log);
 
-                using(var writer = new StreamWriter(Path.Combine(Path.GetTempPath(), "remoteflix.log.txt"), true))
+                using(var writer = new StreamWriter(PathToLogFile, true))
                 {
                     writer.WriteLine(log);
                 }
