@@ -15,21 +15,33 @@ using static RemoteFlix.Base.Helpers.ResponseHelper;
 
 namespace RemoteFlix.Base
 {
-    public class RemoteFlixServer
+    public sealed class RemoteFlixServer
     {
         private const int HTTP_OK = 200;
         private const int HTTP_BAD_REQUEST = 400;
         private const int HTTP_NOT_FOUND = 404;
         private const int HTTP_INTERNAL_SERVER_ERROR = 500;
-
         public const ushort PORT = 50505;
-
         private HttpListener Listener;
         private CancellationTokenSource CancellationTokenSource;
 
         private int RequestId;
+        public bool IsRunning { get; private set; }
 
-        public RemoteFlixServer()
+        public event EventHandler ServerStarted;
+        public event EventHandler ServerStopped;
+
+        // We don't need this to be lazy, since we start the
+        // the server when the program starts
+        public static RemoteFlixServer Instance { get; } = new RemoteFlixServer();
+
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static RemoteFlixServer()
+        {
+        }
+
+        private RemoteFlixServer()
         {
             if (!HttpListener.IsSupported)
             {
@@ -38,10 +50,15 @@ namespace RemoteFlix.Base
 
             Listener = new HttpListener();
             Listener.Prefixes.Add($"http://+:{PORT}/");
+
+            IsRunning = false;
         }
 
         public void Start()
         {
+            if (IsRunning)
+                return;
+
             CancellationTokenSource = new CancellationTokenSource();            
 
             Logger.Instance.Log(LogLevel.Message, "Starting the HttpListener server...");
@@ -51,20 +68,44 @@ namespace RemoteFlix.Base
             Logger.Instance.Log(LogLevel.Message, "Server started.");
 
             Task.Factory.StartNew(ReceiveRequests, CancellationTokenSource.Token);
+
+            IsRunning = true;
+            ServerStarted?.Invoke(this, EventArgs.Empty);
         }
 
         public void Stop()
         {
+            if (!IsRunning)
+                return;
+
             CancellationTokenSource.Cancel();
+            Listener.Stop();
+
+            IsRunning = false;
+            ServerStopped?.Invoke(this, EventArgs.Empty);
         }
 
         private void ReceiveRequests()
         {
             Logger.Instance.Log(LogLevel.Message, "Listening for requests...");
 
-            while (!CancellationTokenSource.IsCancellationRequested)
+            try
             {
-                ThreadPool.QueueUserWorkItem(ProcessRequest, Listener.GetContext());
+                while (!CancellationTokenSource.IsCancellationRequested)
+                {
+                    ThreadPool.QueueUserWorkItem(ProcessRequest, Listener.GetContext());
+                }
+            }
+            catch(HttpListenerException e)
+            {
+                if(!CancellationTokenSource.IsCancellationRequested)
+                {
+                    Logger.Instance.Log(LogLevel.Error, $"{e.GetType()} when receiving requests. {e.Message}");
+                }
+            }
+            catch(Exception e)
+            {
+                Logger.Instance.Log(LogLevel.Error, $"{e.GetType()} when receiving requests. {e.Message}");
             }
 
             Logger.Instance.Log(LogLevel.Message, "Stopped listening for requests.");
@@ -117,8 +158,7 @@ namespace RemoteFlix.Base
 
             foreach (var player in RemoteFlixPlayers.AvaliablePlayers)
             {
-                // $"http://{NetworkHelper.GetLocalIPAddress()}:{RemoteFlixServer.PORT}"
-                builder.AppendLine($"<button onclick=\"location.href='http://{NetworkHelper.GetLocalIPAddress()}:{PORT}/{player.Id}'\" type='button'>{player.Name}</button>");
+                builder.AppendLine($"<button onclick=\"location.href='/{player.Id}'\" type='button'>{player.Name}</button>");
             }
 
             SendResponse(context, builder.ToString());
@@ -213,12 +253,12 @@ namespace RemoteFlix.Base
             if (playerHandle == null)
             {
                 playerHandle = KeyboardSimulationHelper.GetForegroundWindow();
-            }
 
-            // If this also fails, there isn't much we can do
-            if(playerHandle == null || playerHandle.Value == IntPtr.Zero)
-            {
-                return false;
+                // If this also fails, there isn't much we can do
+                if (playerHandle.Value == IntPtr.Zero)
+                {
+                    return false;
+                }
             }
 
             KeyboardSimulationHelper.SendKeys(playerHandle.Value, command.ActionShortcut);

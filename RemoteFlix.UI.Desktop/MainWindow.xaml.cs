@@ -1,10 +1,6 @@
 ﻿using MahApps.Metro.Controls;
-using RemoteFlix.UI.Desktop.ViewModel;
-using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Controls;
-using System.Windows.Forms;
 
 namespace RemoteFlix.UI.Desktop
 {
@@ -17,42 +13,23 @@ namespace RemoteFlix.UI.Desktop
 
         public MainWindow()
         {
-            Icon icon;
-
-            using (var stream = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/RemoteFlix.UI.Desktop;component/Resources/remoteflix.ico")).Stream)
-            {
-                icon = new Icon(stream);
-            }
-
-            var systemTrayIcon = new NotifyIcon
-            {
-                Icon = icon,
-                Visible = true,
-                ContextMenu = new System.Windows.Forms.ContextMenu()
-            };
-
-            systemTrayIcon.DoubleClick += (s, e) =>
-            {
-                Show();
-            };
-
-            systemTrayIcon.ContextMenu.MenuItems.Add(new System.Windows.Forms.MenuItem("Show", (s, e) =>
-            {
-                Show();
-            }));
-
-            systemTrayIcon.ContextMenu.MenuItems.Add(new System.Windows.Forms.MenuItem("Exit", (s, e) =>
-            {
-                var viewModel = DataContext as MainViewModel;
-
-                viewModel.ApplicationShuttingDownCommand.Execute(null);
-
-                System.Windows.Application.Current.Shutdown();
-            }));
-
-            // Hide();
+            Hide();
 
             InitializeComponent();
+        }
+
+        public void BringToForeground()
+        {
+            if (WindowState == System.Windows.WindowState.Minimized || Visibility == System.Windows.Visibility.Hidden)
+            {
+                Show();
+                WindowState = System.Windows.WindowState.Normal;
+            }
+
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
 
         protected override void OnClosing(CancelEventArgs e)

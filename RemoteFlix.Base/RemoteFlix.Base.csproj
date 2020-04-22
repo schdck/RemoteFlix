@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Classes\Log.cs" />
     <Compile Include="Classes\Logger.cs" />
+    <Compile Include="Classes\NetworkInterface.cs" />
     <Compile Include="Classes\PlayerCommand.cs" />
     <Compile Include="Enums\LogLevel.cs" />
     <Compile Include="Helpers\KeyboardSimulationHelper.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Players\PlayerNetflix.cs" />
     <Compile Include="Players\PlayerNetflixChrome.cs" />
     <Compile Include="Players\PlayerVlc.cs" />
+    <Compile Include="Players\PlayerYoutube.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteFlixPlayers.cs" />
     <Compile Include="RemoteFlixServer.cs" />

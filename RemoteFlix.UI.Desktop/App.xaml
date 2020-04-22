@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters ="clr-namespace:RemoteFlix.UI.Desktop.Converters"
              StartupUri="MainWindow.xaml"
+             Startup="OnStartup"
+             Exit="OnExit"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              d1p1:Ignorable="d"
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
@@ -16,7 +18,6 @@
                 <!-- Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <vm:ViewModelLocator x:Key="Locator"
@@ -24,6 +25,16 @@
                                  xmlns:vm="clr-namespace:RemoteFlix.UI.Desktop.ViewModel" />
 
             <converters:TextToQrcodeConverter x:Key="TextToQrcodeConverter" />
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityInverseConverter"
+                                                     TrueValue="Collapsed"
+                                                     FalseValue="Visible" />
+            <converters:BooleanToInverseConverter x:Key="BooleanToInverseConverter" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityInverseConverter"
+                                                  TrueValue="Collapsed"
+                                                  FalseValue="Visible" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"
+                                                  TrueValue="Visible"
+                                                  FalseValue="Collapsed" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
