@@ -31,7 +31,7 @@ There is a setup (use this if you want to have RemoteFlix auto-starting with Win
 After you run the executable, it's pretty straightforward:
 
 1. Double-click the RemoteFlix's icon next to Window's clock to open the application.
-2. Click the `Setup environment` button at the top left or take a look at the **Setting up the environment** section bellow.
+2. Click the `Setup environment` button at the top right or take a look at the **Setting up the environment** section bellow.
 3. RemoteFlix will try to use the correct server address, but in case it guessed wrong you can just select the right one from the combo box.
 4. Scan the QR Code using your phone.
 
