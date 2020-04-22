@@ -24,7 +24,7 @@ namespace RemoteFlix.UI.Desktop.ViewModel
 
         [DependsOn(nameof(SelectedNetworkInterface))]
         public string ServerAddress => SelectedNetworkInterface == null ? null : $"http://{SelectedNetworkInterface.InterNetworkAddress}:{RemoteFlixServer.PORT}";
-        public string RemoteFlixVersion => "1.0-beta2";
+        public string RemoteFlixVersion => "1.0-beta3";
         public ObservableCollection<Log> Logs { get; }
 
         public ICommand StartServerCommand { get; }
