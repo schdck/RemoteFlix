@@ -23,7 +23,7 @@ The idea behind RemoteFlix is very simple. Most media players provide shortcuts 
 
 To do that, it exposes a very simple web-server which is responsible for listing the avaliable players and actions (which we call commands) and handling requests.
 
-When a request is received, the application willll look for the player's process on the machine and send the keys corresponding to the command's shortcut to it.
+When a request is received, the application will look for the player's process on the machine and send the keys corresponding to the command's shortcut to it.
 
 ## Installing and running
 There is a setup (use this if you want to have RemoteFlix auto-starting with Windows) and portable binaries avaliable for each version on the [releases](https://github.com/schdck/RemoteFlix/releases) page.
